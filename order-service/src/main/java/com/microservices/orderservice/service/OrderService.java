@@ -41,21 +41,22 @@ public class OrderService {
         }
         order.setOrderLineItems(orderLineItemList);
 
-        List<String> skuCodes = orderLineItemList.stream().map(this::getSkuCode).toList();
+//        List<String> skuCodes = orderLineItemList.stream().map(this::getSkuCode).toList();
+//
+//        InventoryResponse[] inventoryResponses = webClient.get()
+//                .uri("http://localhost:3005/api/inventory", uriBuilder -> uriBuilder.queryParam("skuCode", skuCodes).build())
+//                .retrieve()
+//                .bodyToMono(InventoryResponse[].class).block();
+//
+//        boolean allInventoryAvailable = Arrays.stream(inventoryResponses).allMatch(InventoryResponse::getIsInventoryAvailable);
 
-        InventoryResponse[] inventoryResponses = webClient.get()
-                .uri("http://localhost:3005/api/inventory", uriBuilder -> uriBuilder.queryParam("skuCode", skuCodes).build())
-                .retrieve()
-                .bodyToMono(InventoryResponse[].class).block();
-
-        boolean allInventoryAvailable = Arrays.stream(inventoryResponses).allMatch(InventoryResponse::getIsInventoryAvailable);
-
-        if (allInventoryAvailable && inventoryResponses.length > 0) {
-            orderRepository.save(order);
-        }else {
-
-            throw new IllegalArgumentException("Product not in stock try again later");
-        }
+//        if (allInventoryAvailable && inventoryResponses.length > 0) {
+//            orderRepository.save(order);
+//        }else {
+//
+//            throw new IllegalArgumentException("Product not in stock try again later");
+//        }
+        orderRepository.save(order);
     }
 
     private String getSkuCode(OrderLineItem orderLineItem) {
